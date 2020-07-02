@@ -12,7 +12,7 @@
   {% endfor %}
 </select>
 
-<label for="name">Nome</label>
+<label for="name">Título</label>
 <input
   type="text"
   name="name"
@@ -22,9 +22,8 @@
 >
 
 <label for="description">Descrição</label>
-<textarea name="description" id="description" cols="30" rows="10">
-  {{ production.name}}
-</textarea>
+<textarea name="description" id="description" cols="30" rows="10"
+>{{ production.name}}</textarea>
 
 {# Input de Foto #}
 
@@ -35,7 +34,7 @@
   id="price"
   placeholder="Preço do Produto"
   value="{{ product.price }}"
-  {# Mascara de valor/reais #}
+  onkeydown="Mask.apply(this, 'formatBRL')"
 >
 
 {% if product.old_price %}

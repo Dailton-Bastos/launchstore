@@ -1,12 +1,14 @@
-CREATE TABLE "categories" (
+CREATE TABLE "categories"
+(
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL
 );
 
-CREATE TABLE "products" (
+CREATE TABLE "products"
+(
   "id" SERIAL PRIMARY KEY,
-  "category_id" int UNIQUE,
-  "user_id" int UNIQUE,
+  "category_id" int NOT NULL,
+  "user_id" int NOT NULL,
   "name" text NOT NULL,
   "description" text NOT NULL,
   "old_price" int,
@@ -17,11 +19,12 @@ CREATE TABLE "products" (
   "updated_at" timestamp DEFAULT (now())
 );
 
-CREATE TABLE "files" (
+CREATE TABLE "files"
+(
   "id" SERIAL PRIMARY KEY,
   "name" text,
   "path" text NOT NULL,
-  "product_id" int UNIQUE
+  "product_id" int
 );
 
 ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");

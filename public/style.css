@@ -175,6 +175,8 @@ section.form .header h3 {
 .form .fields textarea {
   resize: vertical;
   min-height: 180px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
 .form .fields input[type='text']::placeholder,
