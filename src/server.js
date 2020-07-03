@@ -1,5 +1,6 @@
 const express = require('express')
 const nunjucks = require('nunjucks')
+const methodOverride = require('method-override')
 const { resolve } = require('path')
 const routes = require('./routes')
 
@@ -10,6 +11,7 @@ const server = express()
 
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static(resolve(__dirname, '..', 'public')))
+server.use(methodOverride('_method', { methods: ['POST', 'GET'] }))
 
 server.set('view engine', 'njk')
 nunjucks.configure(resolve(__dirname, 'app', 'views'), {

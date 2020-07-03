@@ -23,7 +23,7 @@
 
 <label for="description">Descrição</label>
 <textarea name="description" id="description" cols="30" rows="10"
->{{ production.name}}</textarea>
+>{{ product.description}}</textarea>
 
 {# Input de Foto #}
 
@@ -50,29 +50,31 @@
   value="{{ product.quantity }}"
 >
 
-{% if products.status %}
+{% if (product.status === 1) or (product.status === 0)%}
   <label for="status">Disponível ?</label>
   <div class="status">
-    <input
-      type="radio"
-      name="status"
-      id="status"
-      value="1"
-      {% if product.status === '1' %}
-        checked
-      {% endif %}
-    > Sim
-  </div>
+    <span>
+      <input
+        type="radio"
+        name="status"
+        id="status"
+        value="1"
+        {% if product.status === 1 %}
+          checked
+        {% endif %}
+      > Sim
+    </span>
 
-  <div class="status">
-    <input
-      type="radio"
-      name="status"
-      id="status"
-      value="0"
-      {% if product.status === '0' %}
-        checked
-      {% endif %}
-    > Não
+    <span>
+      <input
+        type="radio"
+        name="status"
+        id="status"
+        value="0"
+        {% if product.status === 0 %}
+          checked
+        {% endif %}
+      > Não
+    </span>
   </div>
 {% endif %}
