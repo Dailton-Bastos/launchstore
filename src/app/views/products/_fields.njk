@@ -25,7 +25,20 @@
 <textarea name="description" id="description" cols="30" rows="10"
 >{{ product.description}}</textarea>
 
-{# Input de Foto #}
+<label>Fotos</label>
+<div class="photos-uploads">
+  <input
+    type="file"
+    name="photos"
+    multiple
+    accept="images/*"
+    onchange="PhotosUpload.handleFileInput(event)"
+  >
+  <p>Selecione até 6 Fotos</p>
+</div>
+<div class="photos-preview">
+
+</div>
 
 <label for="price">Valor</label>
 <input
