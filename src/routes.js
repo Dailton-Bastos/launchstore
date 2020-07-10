@@ -3,9 +3,14 @@ const multer = require('./app/middlewares/multer')
 
 const routes = new Router()
 
+const HomeController = require('./app/controllers/HomeController')
 const ProductController = require('./app/controllers/ProductController')
+const SearchController = require('./app/controllers/SearchController')
 
-routes.get('/', (_, res) => res.render('_layout/default'))
+routes.get('/', HomeController.index)
+
+// Search
+routes.get('/products/search', SearchController.index)
 
 // Products
 routes.get('/products/create', ProductController.create)
