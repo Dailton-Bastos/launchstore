@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Dailton Bastos">
   <meta name="description" content="Lauchstore o seu e-commerce">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="/style.css">
+
+  {% include "../_partials/styles.njk" %}
 
   {% block head %}
     <title>Launchstore</title>
@@ -14,6 +14,8 @@
 
 </head>
 <body>
+  {% include "../_partials/messages.njk" %}
+
   {% include "../_partials/header.njk" %}
 
   {% block content %}

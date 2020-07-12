@@ -1,0 +1,85 @@
+<label for="name">Nome Completo</label>
+<div class="input">
+  <input
+    type="text"
+    name="name"
+    id="name"
+    placeholder="Digite seu nome completo"
+    value="{{ user.name }}"
+    required
+  >
+</div>
+
+<label for="email">Email</label>
+<div class="input">
+  <input
+    type="email"
+    name="email"
+    id="email"
+    placeholder="Digite seu email"
+    value="{{ user.email }}"
+    onblur="Validate.apply(this, 'isEmail')"
+    required
+  >
+</div>
+
+<label for="password">Sua senha</label>
+<div class="input">
+  <input
+    type="password"
+    name="password"
+    id="password"
+    placeholder="Senha secreta"
+    required
+  >
+</div>
+
+{% if not user.id %}
+  <label for="password2">Confirmar senha</label>
+  <div class="input">
+    <input
+      type="password"
+      name="passwordRepeat"
+      id="password2"
+      placeholder="Senha secreta"
+      required
+    >
+  </div>
+{% endif %}
+
+<label for="cpf_cnpj">CPF ou CNPJ</label>
+<div class="input">
+  <input
+    type="text"
+    name="cpf_cnpj"
+    id="cpf_cnpj"
+    placeholder="Digite apenas número"
+    value="{{ user.cpf_cnpj }}"
+    onkeydown="Mask.apply(this, 'cpfCnpj')"
+    onblur="Validate.apply(this, 'isCpfCnpj')"
+    required
+  >
+</div>
+
+<label for="zip_code">CEP</label>
+<div class="input">
+  <input
+    type="text"
+    name="zip_code"
+    id="zip_code"
+    placeholder="Digite apenas número"
+    value="{{ user.zip_code }}"
+    onkeydown="Mask.apply(this, 'zipCode')"
+    onblur="Validate.apply(this, 'isZipCode')"
+    required
+  >
+</div>
+
+<label for="address">Endereço Completo</label>
+<textarea
+  name="address"
+  id="address"
+  cols="30"
+  rows="10"
+  required
+>{{ user.address }}</textarea>

@@ -182,6 +182,7 @@ section.form .header h3 {
   padding: 1.8rem 0;
 }
 
+.form .fields .input input,
 .form .fields input[type='text'],
 .form .fields input[type='number'],
 .form .fields textarea,
@@ -201,6 +202,7 @@ section.form .header h3 {
   font-size: 16px;
 }
 
+.form .fields .input input::placeholder,
 .form .fields input[type='text']::placeholder,
 .form .fields input[type='number']::placeholder {
   font-size: 14px;
@@ -526,4 +528,17 @@ section.form .header h3 {
 .search-products nav ul li a:hover {
   color: #111;
   font-weight: bold;
+}
+
+/* User Register */
+.user-register.container.form {
+  max-width: 500px;
+}
+
+/* Validate errors */
+.input .error {
+  background-color: #e74c3c;
+  padding: 4px;
+  border-radius: 4px;
+  color: #fff;
 }
