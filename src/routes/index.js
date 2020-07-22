@@ -16,6 +16,6 @@ routes.use('/users', users)
 routes.get('/ads/create', (_, res) => res.redirect('/products/create'))
 
 // Accounts
-routes.get('/accounts', (_, res) => res.redirect('/users/register'))
+routes.get('/accounts', (_, res) => res.redirect('/users/login'))
 
 module.exports = routes
