@@ -49,10 +49,27 @@ module.exports = {
 
       return results.rows[0].id
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error)
     }
 
     return this
+  },
+
+  async update(id, fields) {
+    let query = 'UPDATE users SET'
+
+    Object.keys(fields).forEach((key, index, array) => {
+      if (index + 1 < array.length) {
+        query = `${query}
+          ${key} = '${fields[key]}',
+        `
+      } else {
+        query = `${query}
+          ${key} = '${fields[key]}'
+          WHERE id = ${id}
+        `
+      }
+    })
+    await db.query(query)
   },
 }

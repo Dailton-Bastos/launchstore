@@ -29,7 +29,11 @@
     type="password"
     name="password"
     id="password"
-    placeholder="Senha secreta"
+    {% if not user.id %}
+      placeholder="Senha secreta"
+    {% else %}
+      placeholder="Digite sua senha para atualizar seu cadastro"
+    {% endif %}
     required
   >
 </div>
