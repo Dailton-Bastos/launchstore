@@ -36,7 +36,7 @@ module.exports = {
 
     const values = [
       category_id,
-      user_id || 1,
+      user_id,
       name,
       description,
       old_price || price,

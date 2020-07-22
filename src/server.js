@@ -11,6 +11,11 @@ const isDev = process.env.NODE_ENV !== 'production'
 const server = express()
 
 server.use(session)
+// Global Variable
+server.use((req, res, next) => {
+  res.locals.session = req.session
+  return next()
+})
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static(resolve(__dirname, '..', 'public')))
 server.use(methodOverride('_method', { methods: ['POST', 'GET'] }))

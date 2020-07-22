@@ -26,6 +26,10 @@ module.exports = {
     if (req.files.length === 0)
       return res.send('Please, send at least one image')
 
+    const { userId } = req.session
+
+    req.body.user_id = userId
+
     const results = await Product.create(req.body)
     const { id } = results.rows[0]
 
