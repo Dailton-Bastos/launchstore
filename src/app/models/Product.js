@@ -58,18 +58,16 @@ module.exports = {
     const query = `
       UPDATE products SET
         category_id = ($1),
-        user_id = ($2),
-        name = ($3),
-        description = ($4),
-        old_price = ($5),
-        price = ($6),
-        quantity = ($7),
-        status = ($8)
-      WHERE id = $9
+        name = ($2),
+        description = ($3),
+        old_price = ($4),
+        price = ($5),
+        quantity = ($6),
+        status = ($7)
+      WHERE id = $8
     `
     const {
       category_id,
-      user_id,
       name,
       description,
       old_price,
@@ -81,7 +79,6 @@ module.exports = {
 
     const values = [
       category_id,
-      user_id || 1,
       name,
       description,
       old_price,
@@ -104,6 +101,12 @@ module.exports = {
     const query = 'SELECT * FROM files WHERE product_id = $1'
 
     return db.query(query, [id])
+  },
+
+  userProducts(user_id) {
+    const query = 'SELECT products.* FROM products WHERE user_id = $1'
+
+    return db.query(query, [user_id])
   },
 
   search(params) {

@@ -18,6 +18,7 @@ routes.post('/register', UserValidator.post, UserController.post)
 
 routes.get('/', onlyUsers, UserValidator.show, UserController.show)
 routes.put('/', UserValidator.update, UserController.update)
+routes.delete('/', UserController.delete)
 
 routes.get('/login', isLoggedRedirectToUsers, SessionController.loginForm)
 routes.post('/login', SessionValidator.login, SessionController.login)
