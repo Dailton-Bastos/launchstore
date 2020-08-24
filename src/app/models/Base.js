@@ -1,5 +1,19 @@
 const db = require('../../config/database')
 
+function find(filters, table) {
+  let query = `SELECT * FROM ${table}`
+
+  Object.keys(filters).forEach((key) => {
+    query += ` ${key}`
+
+    Object.keys(filters[key]).forEach((field) => {
+      query += ` ${field} = '${filters[key][field]}'`
+    })
+  })
+
+  return db.query(query)
+}
+
 const Base = {
   init({ table }) {
     if (!table) throw new Error('Invalid Params')
@@ -9,22 +23,22 @@ const Base = {
     return this
   },
 
-  async findOne(filters) {
-    let query = `SELECT * FROM ${this.table}`
-
-    Object.keys(filters).map((key) => {
-      query = `${query} ${key}`
-
-      Object.keys(filters[key]).map((field) => {
-        query = `${query} ${field} = '${filters[key][field]}'`
-        return query
-      })
-      return query
-    })
-
-    const results = await db.query(query)
+  async find(id) {
+    const results = await find({ where: { id } }, this.table)
 
     return results.rows[0]
+  },
+
+  async findOne(filters) {
+    const results = await find(filters, this.table)
+
+    return results.rows[0]
+  },
+
+  async findAll(filters) {
+    const results = await find(filters, this.table)
+
+    return results.rows
   },
 
   async create(fields) {
@@ -70,9 +84,7 @@ const Base = {
   },
 
   delete(id) {
-    const query = 'DELETE FROM products WHERE id = $1'
-
-    return db.query(query, [id])
+    return db.query(`DELETE FROM ${this.table} WHERE id = $1`, [id])
   },
 }
 
