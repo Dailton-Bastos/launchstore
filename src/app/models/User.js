@@ -3,78 +3,65 @@ const { unlinkSync } = require('fs')
 const db = require('../../config/database')
 
 const Product = require('./Product')
+const Base = require('./Base')
 
-module.exports = {
-  async findOne(filters) {
-    let query = 'SELECT * FROM users'
+Base.init({ table: 'users' })
 
-    Object.keys(filters).map((key) => {
-      query = `${query} ${key}`
+const User = {
+  ...Base,
 
-      Object.keys(filters[key]).map((field) => {
-        query = `${query} ${field} = '${filters[key][field]}'`
-        return query
-      })
-      return query
-    })
+  // async create(data) {
+  //   try {
+  //     const query = `
+  //     INSERT INTO users (
+  //       name,
+  //       email,
+  //       password,
+  //       cpf_cnpj,
+  //       zip_code,
+  //       address
+  //     ) VALUES ($1, $2, $3, $4, $5, $6)
+  //     RETURNING id
+  //   `
 
-    const results = await db.query(query)
+  //     const { name, email, password, address } = data
 
-    return results.rows[0]
-  },
+  //     let { cpf_cnpj, zip_code } = data
 
-  async create(data) {
-    try {
-      const query = `
-      INSERT INTO users (
-        name,
-        email,
-        password,
-        cpf_cnpj,
-        zip_code,
-        address
-      ) VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id
-    `
+  //     cpf_cnpj = cpf_cnpj.replace(/\D/g, '')
+  //     zip_code = zip_code.replace(/\D/g, '')
 
-      const { name, email, password, address } = data
+  //     const passwordHash = await hash(password, 8)
 
-      let { cpf_cnpj, zip_code } = data
+  //     const values = [name, email, passwordHash, cpf_cnpj, zip_code, address]
 
-      cpf_cnpj = cpf_cnpj.replace(/\D/g, '')
-      zip_code = zip_code.replace(/\D/g, '')
+  //     const results = await db.query(query, values)
 
-      const passwordHash = await hash(password, 8)
+  //     return results.rows[0].id
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
 
-      const values = [name, email, passwordHash, cpf_cnpj, zip_code, address]
+  //   return this
+  // },
 
-      const results = await db.query(query, values)
+  // async update(id, fields) {
+  //   let query = 'UPDATE users SET'
 
-      return results.rows[0].id
-    } catch (error) {
-      console.error(error)
-    }
-
-    return this
-  },
-
-  async update(id, fields) {
-    let query = 'UPDATE users SET'
-
-    Object.keys(fields).forEach((key, index, array) => {
-      if (index + 1 < array.length) {
-        query = `${query}
-          ${key} = '${fields[key]}',
-        `
-      } else {
-        query = `${query}
-          ${key} = '${fields[key]}'
-          WHERE id = ${id}
-        `
-      }
-    })
-    await db.query(query)
-  },
+  //   Object.keys(fields).forEach((key, index, array) => {
+  //     if (index + 1 < array.length) {
+  //       query = `${query}
+  //         ${key} = '${fields[key]}',
+  //       `
+  //     } else {
+  //       query = `${query}
+  //         ${key} = '${fields[key]}'
+  //         WHERE id = ${id}
+  //       `
+  //     }
+  //   })
+  //   await db.query(query)
+  // },
 
   async delete(id) {
     // Get all products
@@ -105,3 +92,5 @@ module.exports = {
     })
   },
 }
+
+module.exports = User
