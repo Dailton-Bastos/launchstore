@@ -15,33 +15,28 @@ module.exports = {
     return results.rows
   },
 
-  async search(params) {
-    const { filter, category } = params
-
-    let query = ''
-    let filterQuery = 'WHERE'
-
-    if (category) {
-      filterQuery = `${filterQuery}
-        products.category_id = ${category}
-        AND`
-    }
-
-    filterQuery = `
-      ${filterQuery}
-      products.name ILIKE '%${filter}%'
-      OR products.description ILIKE '%${filter}%'
-    `
-
-    query = `
+  async search({ filter, category }) {
+    let query = `
       SELECT products.*,
       categories.name AS category_name
       FROM products
       LEFT JOIN categories
       ON (categories.id = products.category_id)
-      ${filterQuery}
-      ORDER BY products.id
+      WHERE 1 = 1
     `
+
+    if (category) {
+      query += ` AND products.category_id = ${category}`
+    }
+
+    if (filter) {
+      query += `
+        AND (products.name ILIKE '%${filter}%'
+        OR products.description ILIKE '%${filter}%')
+      `
+    }
+
+    query += ` AND status != 0 ORDER BY products.name`
 
     const results = await db.query(query)
     return results.rows
