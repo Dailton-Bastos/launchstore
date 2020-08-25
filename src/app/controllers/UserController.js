@@ -103,7 +103,7 @@ module.exports = {
 
       // Remove all imagens public folder
       promiseResults.forEach((files) => {
-        return files.rows.forEach((file) => {
+        files.forEach((file) => {
           try {
             if (file) unlinkSync(file.path)
           } catch (error) {
