@@ -4,7 +4,7 @@ const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
 
-const { formatPrice, date } = require('../../libs/utils')
+const LoadProductService = require('../services/LoadProductService')
 
 module.exports = {
   async create(_, res) {
@@ -66,30 +66,11 @@ module.exports = {
     try {
       const { id } = req.params
 
-      const product = await Product.find(id)
+      const product = await LoadProductService.load('product', {
+        where: { id },
+      })
 
-      if (!product) return res.send('Product not found')
-
-      const { day, hours, minutes, month } = date(product.updated_at)
-
-      product.published = {
-        day: `${day}/${month}`,
-        hours: `${hours}h${minutes}`,
-      }
-
-      product.oldPrice = formatPrice(product.old_price)
-      product.price = formatPrice(product.price)
-
-      let files = await Product.files(product.id)
-      files = files.map((file) => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace(
-          'public',
-          ''
-        )}`,
-      }))
-
-      return res.render('products/show', { product, files })
+      return res.render('products/show', { product })
     } catch (error) {
       throw new Error(error)
     }
@@ -99,26 +80,13 @@ module.exports = {
     try {
       const { id } = req.params
 
-      const product = await Product.find(id)
-
-      if (!product) return res.send('Product not found')
-
-      product.old_price = formatPrice(product.old_price)
-      product.price = formatPrice(product.price)
+      const product = await LoadProductService.load('product', {
+        where: { id },
+      })
 
       const categories = await Category.findAll()
 
-      // get images
-      let files = await Product.files(product.id)
-      files = files.map((file) => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace(
-          'public',
-          ''
-        )}`,
-      }))
-
-      return res.render('products/edit', { product, categories, files })
+      return res.render('products/edit', { product, categories })
     } catch (error) {
       throw new Error(error)
     }
@@ -160,12 +128,13 @@ module.exports = {
       }
 
       req.body.price = req.body.price.replace(/\D/g, '')
+      req.body.old_price = req.body.old_price.replace(/\D/g, '')
 
       const { old_price, price } = req.body
 
       if (old_price !== price) {
         const oldProduct = await Product.find(id)
-        req.body.old_price = oldProduct.rows[0].price
+        req.body.old_price = oldProduct.price
       }
 
       const { category_id, name, description, quantity, status } = req.body

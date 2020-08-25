@@ -37,8 +37,8 @@
   <p>Selecione até 6 Fotos</p>
 </div>
 <div class="photos-preview">
-  {% if files %}
-    {% for image in files %}
+  {% if product.files %}
+    {% for image in product.files %}
       <div class="photo" id="{{ image.id }}">
         <img src="{{ image.src }}" alt="{{ image.name }}">
         <i
@@ -57,12 +57,12 @@
   name="price"
   id="price"
   placeholder="Preço do Produto"
-  value="{{ product.price }}"
+  value="{{ product.formattedPrice }}"
   onkeydown="Mask.apply(this, 'formatBRL')"
 >
 
 {% if product.old_price %}
-  <input type="hidden" name="old_price" value="{{ product.old_price }}">
+  <input type="hidden" name="old_price" value="{{ product.formattedOldPrice }}">
 {% endif %}
 
 <label for="quantity">Quantidade</label>
