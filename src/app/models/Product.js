@@ -7,13 +7,15 @@ Base.init({ table: 'products' })
 module.exports = {
   ...Base,
 
-  files(id) {
+  async files(id) {
     const query = 'SELECT * FROM files WHERE product_id = $1'
 
-    return db.query(query, [id])
+    const results = await db.query(query, [id])
+
+    return results.rows
   },
 
-  search(params) {
+  async search(params) {
     const { filter, category } = params
 
     let query = ''
@@ -41,48 +43,7 @@ module.exports = {
       ORDER BY products.id
     `
 
-    return db.query(query)
+    const results = await db.query(query)
+    return results.rows
   },
 }
-
-// create(data) {
-//   const query = `
-//     INSERT INTO products (
-//       category_id,
-//       user_id,
-//       name,
-//       description,
-//       old_price,
-//       price,
-//       quantity,
-//       status
-//     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-//     RETURNING id
-//   `
-
-//   const {
-//     category_id,
-//     user_id,
-//     name,
-//     description,
-//     old_price,
-//     quantity,
-//     status,
-//   } = data
-
-//   let { price } = data
-//   price = price.replace(/\D/g, '')
-
-//   const values = [
-//     category_id,
-//     user_id,
-//     name,
-//     description,
-//     old_price || price,
-//     price,
-//     quantity,
-//     status || 1,
-//   ]
-
-//   return db.query(query, values)
-// },

@@ -5,8 +5,8 @@ const { formatPrice } = require('../../libs/utils')
 module.exports = {
   async index(req, res) {
     async function getImage(productId) {
-      const results = await Product.files(productId)
-      const files = results.rows.map((file) => {
+      let files = await Product.files(productId)
+      files = files.map((file) => {
         return `${req.protocol}://${req.headers.host}${file.path.replace(
           'public',
           ''
@@ -27,9 +27,9 @@ module.exports = {
 
       if (category) params.category = category
 
-      const results = await Product.search(params)
+      let products = await Product.search(params)
 
-      const productsPromise = results.rows.map(async (product) => {
+      const productsPromise = products.map(async (product) => {
         product.img = await getImage(product.id)
         product.oldPrice = formatPrice(product.old_price)
         product.price = formatPrice(product.price)
@@ -37,7 +37,7 @@ module.exports = {
         return product
       })
 
-      const products = await Promise.all(productsPromise)
+      products = await Promise.all(productsPromise)
 
       const search = {
         term: filter,
@@ -61,10 +61,7 @@ module.exports = {
 
       return res.render('search/index', { products, search, categories })
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
+      throw new Error(error)
     }
-
-    return this
   },
 }

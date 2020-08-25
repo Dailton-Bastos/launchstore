@@ -3,13 +3,15 @@ const db = require('../../config/database')
 function find(filters, table) {
   let query = `SELECT * FROM ${table}`
 
-  Object.keys(filters).forEach((key) => {
-    query += ` ${key}`
+  if (filters) {
+    Object.keys(filters).forEach((key) => {
+      query += ` ${key}`
 
-    Object.keys(filters[key]).forEach((field) => {
-      query += ` ${field} = '${filters[key][field]}'`
+      Object.keys(filters[key]).forEach((field) => {
+        query += ` ${field} = '${filters[key][field]}'`
+      })
     })
-  })
+  }
 
   return db.query(query)
 }
