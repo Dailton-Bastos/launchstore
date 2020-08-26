@@ -260,4 +260,24 @@ const Validate = {
       value,
     }
   },
+
+  allFields(event) {
+    const items = document.querySelectorAll(' .fields input, .fields textarea')
+
+    const inputInvalid = Array.from(items).some((item) => item.value === '')
+
+    if (inputInvalid) {
+      event.preventDefault()
+
+      const message = document.createElement('div')
+      message.classList.add('messages')
+      message.classList.add('error')
+      message.style.position = 'fixed'
+
+      message.innerHTML = 'Todos os campos são obrigatórios.'
+      document.querySelector('body').append(message)
+    }
+
+    return event
+  },
 }

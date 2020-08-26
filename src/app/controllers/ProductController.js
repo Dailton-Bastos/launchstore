@@ -19,14 +19,6 @@ module.exports = {
 
   async post(req, res) {
     try {
-      const keys = Object.keys(req.body)
-      const isValid = keys.every((key) => req.body[key] !== '')
-
-      if (!isValid) res.send('All fields required')
-
-      if (req.files.length === 0)
-        return res.send('Please, send at least one image')
-
       const {
         category_id,
         name,
@@ -94,14 +86,6 @@ module.exports = {
 
   async put(req, res) {
     try {
-      const keys = Object.keys(req.body)
-
-      keys.forEach((key) => {
-        const isValid = req.body[key] === '' && key !== 'removed_files'
-        if (isValid) return res.send('All fields required')
-        return isValid
-      })
-
       const { removed_files, id } = req.body
 
       // Atualizando images no DB

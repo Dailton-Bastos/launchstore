@@ -13,7 +13,10 @@
         {% include "./_fields.njk" %}
       </div>
 
-      <button type="submit" class="button">Salvar</button>
+      <button
+        type="submit"
+        class="button"
+        onclick="Validate.allFields(event)">Salvar</button>
     </form>
   </section>
 {% endblock %}
