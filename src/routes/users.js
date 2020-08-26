@@ -34,4 +34,6 @@ routes.post(
 routes.get('/password-reset', SessionController.resetForm)
 routes.post('/password-reset', SessionValidator.reset, SessionController.reset)
 
+routes.get('/ads', UserController.ads)
+
 module.exports = routes
