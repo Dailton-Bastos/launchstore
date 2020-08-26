@@ -20,12 +20,13 @@
             <div class="published">
               Públicado em: {{ product.formattedCreatedAt }}
             </div>
+
+            <div class="actions">
+              <a href="/products/{{ product.id }}/edit">Editar</a>
+              <a href="/products/{{ product.id }}">Ver</a>
+            </div>
           </div>
 
-          <div class="actions">
-            <a href="/products/{{ product.id }}/edit">Editar</a>
-            <a href="/products/{{ product.id }}">Ver</a>
-          </div>
         </div>
       {% endfor %}
     </div>
