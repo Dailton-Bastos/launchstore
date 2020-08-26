@@ -4,6 +4,7 @@ const routes = new Router()
 
 const UserController = require('../app/controllers/UserController')
 const SessionController = require('../app/controllers/SessionController')
+const OrderController = require('../app/controllers/OrderController')
 
 const UserValidator = require('../app/validators/user')
 const SessionValidator = require('../app/validators/session')
@@ -35,5 +36,7 @@ routes.get('/password-reset', SessionController.resetForm)
 routes.post('/password-reset', SessionValidator.reset, SessionController.reset)
 
 routes.get('/ads', UserController.ads)
+
+routes.post('/orders', onlyUsers, OrderController.post)
 
 module.exports = routes
