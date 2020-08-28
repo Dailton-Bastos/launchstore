@@ -50,7 +50,27 @@ const Cart = {
     return this
   },
 
-  removeOne(productId) {},
+  removeOne(productId) {
+    const inCart = this.items.find((item) => item.product.id === productId)
+
+    if (!inCart) return this
+
+    inCart.quantity -= 1
+    inCart.price = inCart.product.price * inCart.quantity
+    inCart.formattedPrice = formatPrice(inCart.price)
+
+    this.total.quantity -= 1
+    this.total.price = inCart.product.price
+    this.total.formattedPrice = formatPrice(this.total.price)
+
+    if (inCart.quantity < 1) {
+      this.items = this.items.filter((item) => {
+        return item.product.id !== inCart.product.id
+      })
+    }
+
+    return this
+  },
 
   delete(productId) {},
 }
@@ -79,8 +99,12 @@ console.log('add third cart item')
 oldCart = Cart.init(oldCart).addOne(product2)
 console.log(oldCart)
 
-console.log('add last cart item')
-oldCart = Cart.init(oldCart).addOne(product)
+console.log('remove one item')
+oldCart = Cart.init(oldCart).removeOne(product.id)
+console.log(oldCart)
+
+console.log('remove one item again')
+oldCart = Cart.init(oldCart).removeOne(product.id)
 console.log(oldCart)
 
 module.exports = Cart
