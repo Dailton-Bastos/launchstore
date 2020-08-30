@@ -48,4 +48,15 @@ module.exports = {
 
     return res.redirect('/cart')
   },
+
+  delete(req, res) {
+    const { id } = req.params
+    const { cart } = req.session
+
+    if (!cart) return false
+
+    req.session.cart = Cart.init(cart).delete(id)
+
+    return res.redirect('/cart')
+  },
 }
