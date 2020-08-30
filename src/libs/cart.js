@@ -60,7 +60,7 @@ const Cart = {
     inCart.formattedPrice = formatPrice(inCart.price)
 
     this.total.quantity -= 1
-    this.total.price = inCart.product.price
+    this.total.price -= inCart.product.price
     this.total.formattedPrice = formatPrice(this.total.price)
 
     if (inCart.quantity < 1) {
@@ -91,7 +91,7 @@ const Cart = {
   },
 
   getCardItem(productId) {
-    return this.items.find((item) => item.product.id === productId)
+    return this.items.find((item) => item.product.id === +productId)
   },
 }
 

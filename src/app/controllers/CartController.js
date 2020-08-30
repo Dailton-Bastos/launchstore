@@ -34,4 +34,18 @@ module.exports = {
       throw new Error(error)
     }
   },
+
+  removeOne(req, res) {
+    const { id } = req.params
+
+    let { cart } = req.session
+
+    if (!cart) return res.redirect('/cart')
+
+    cart = Cart.init(cart).removeOne(id)
+
+    req.session.cart = cart
+
+    return res.redirect('/cart')
+  },
 }
